@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="nav">
+    Navigation:
+    <a href="{{ url_for('student_dashboard') }}">Home</a> |
+    <a href="{{ url_for('submit_summary') }}">My Co-Op Summary</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<h2>Student Dashboard - {{ student.full_name }}</h2>
+
+<h3>Filters</h3>
+<form method="get">
+    <label>Employer</label>
+    <input type="text" name="employer" value="{{ request.args.get('employer','') }}">
+    <label>Major</label>
+    <input type="text" name="major" value="{{ request.args.get('major','') }}">
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
+
+<h3>Search Results</h3>
+
+<table width="100%">
+    <tr>
+        <th>Title</th>
+        <th>Employer</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Apply</th>
+    </tr>
+
+    {% for p in positions %}
+    {% set app = applications | selectattr("position_id", "equalto", p.position_id) | first %}
+    <tr>
+        <td>{{ p.title }}</td>
+        <td>{{ p.employer.full_name }} ({{ p.employer.company.name }})</td>
+        <td>{{ p.location }}</td>
+
+        <td>
+            {% if app %}
+                <span style="color:#0f0;">Applied on {{ app.applied_at.date() }}</span>
+            {% else %}
+                <span style="color:#f33;">Not Applied</span>
+            {% endif %}
+        </td>
+
+        <td>
+            {% if not app %}
+            <form method="post" action="{{ url_for('apply_to_position', position_id=p.position_id) }}">
+                <button class="btn btn-primary" type="submit">Apply</button>
+            </form>
+            {% else %}
+            <button class="btn btn-secondary" disabled>Already Applied</button>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

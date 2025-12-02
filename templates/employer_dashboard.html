@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="nav">
+    Navigation:
+    <a href="{{ url_for('employer_dashboard') }}">Home</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<h2>Employer Dashboard - {{ employer.full_name }}</h2>
+
+<h3>Post Position Form</h3>
+<form method="post">
+    <label>Title</label>
+    <input name="title" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="4"></textarea>
+
+    <label>Weeks</label>
+    <input name="weeks" type="number">
+
+    <label>Hours per Week</label>
+    <input name="hours_per_week" type="number">
+
+    <label>Location</label>
+    <input name="location">
+
+    <label>Majors of Interest</label>
+    <input name="majors_of_interest">
+
+    <label>Required Skills</label>
+    <input name="required_skills">
+
+    <label>Preferred Skills</label>
+    <input name="preferred_skills">
+
+    <button type="submit" class="btn btn-primary">Post Position</button>
+</form>
+
+<h3>Applicants</h3>
+<ul>
+    {% for p in positions %}
+    <li>
+        {{ p.title }} -
+        <a href="{{ url_for('view_applicants', position_id=p.position_id) }}">View Applicants</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

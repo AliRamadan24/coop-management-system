@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="nav">
+    Navigation:
+    <span>Department: {{ faculty.department.name }}</span> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<h2>Faculty Dashboard</h2>
+
+<h3>Co-Op Students (by Department)</h3>
+<table width="100%">
+    <tr>
+        <th>Student</th><th>Major</th><th>GPA</th><th>Grade</th>
+    </tr>
+    {% for s in students %}
+    <tr>
+        <td>{{ s.full_name }}</td>
+        <td>{{ s.major }}</td>
+        <td>{{ s.gpa }}</td>
+        <td><a href="{{ url_for('grade_student', student_id=s.student_id) }}">Enter Grade</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

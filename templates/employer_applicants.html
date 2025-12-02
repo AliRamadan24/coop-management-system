@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="nav">
+    <a href="{{ url_for('employer_dashboard') }}">Back to Dashboard</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<h2>Applicants for {{ position.title }}</h2>
+
+<table width="100%">
+    <tr>
+        <th>Name</th><th>GPA</th><th>Resume</th><th>Action</th>
+    </tr>
+    {% for app in applications %}
+    <tr>
+        <td>{{ app.student.full_name }}</td>
+        <td>{{ app.student.gpa }}</td>
+        <td>
+            {% if app.student.resumes|length > 0 %}
+                <a href="{{ app.student.resumes[-1].file_url }}" target="_blank">Resume Link</a>
+            {% else %}
+                No Resume
+            {% endif %}
+        </td>
+        <td>
+            <form method="post" action="{{ url_for('mark_pending_offer', application_id=app.application_id) }}">
+                <button type="submit" class="btn btn-primary">Select &amp; Mark Pending</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

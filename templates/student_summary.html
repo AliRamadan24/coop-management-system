@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="nav">
+    <a href="{{ url_for('student_dashboard') }}">Back</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<h2>Submit Co-Op Summary</h2>
+
+{% if offers|length == 0 %}
+<p>No offers yet.</p>
+{% else %}
+<form method="POST">
+
+    <label>Choose Position</label>
+    <select name="position_id" required>
+        {% for o in offers %}
+        <option value="{{ o.position.position_id }}">
+            {{ o.position.title }} ({{ o.position.employer.company.name }})
+        </option>
+        {% endfor %}
+    </select>
+
+    <label>Summary</label>
+    <textarea name="text" rows="7" placeholder="Write your summary..." required></textarea>
+
+    <button type="submit" class="btn btn-primary">Submit Summary</button>
+</form>
+{% endif %}
+
+{% endblock %}

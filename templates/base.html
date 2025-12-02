@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>CECS Co-Op System</title>
+    <meta charset="utf-8">
+    <style>
+        body { background:#111; color:#eee; font-family:Arial, sans-serif; }
+        .card { border-radius:20px; border:1px solid #555; padding:20px; margin:20px auto; width:80%; background:#000; }
+        .btn { padding:10px 20px; border-radius:8px; border:none; cursor:pointer; }
+        .btn-primary { background:#1f5f2e; color:#fff; }
+        .btn-secondary { background:#333; color:#fff; }
+        .nav { margin-bottom:10px; padding:10px; background:#123456; border-radius:12px; }
+        .nav a { color:#fff; margin-right:10px; text-decoration:none; }
+        .flash-success { color:#0f0; }
+        .flash-error { color:#f33; }
+        input, select, textarea { width:100%; padding:8px; margin:5px 0 10px; border-radius:6px; border:1px solid #555; background:#111; color:#eee; }
+    </style>
+</head>
+<body>
+<div class="card">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
